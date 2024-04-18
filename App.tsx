@@ -1,33 +1,8 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
+import React, { useState } from 'react';
 import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { ActivityIndicator, Alert, Button, FlatList, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+type SectionProps = PropsWithChildren<{title: string;}>;
 
 function Section({children, title}: SectionProps): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -37,7 +12,7 @@ function Section({children, title}: SectionProps): React.JSX.Element {
         style={[
           styles.sectionTitle,
           {
-            color: isDarkMode ? Colors.white : Colors.black,
+            color: isDarkMode ? 'white' : 'black',
           },
         ]}>
         {title}
@@ -46,7 +21,7 @@ function Section({children, title}: SectionProps): React.JSX.Element {
         style={[
           styles.sectionDescription,
           {
-            color: isDarkMode ? Colors.light : Colors.dark,
+            color: isDarkMode ? 'light' : 'dark',
           },
         ]}>
         {children}
@@ -56,47 +31,93 @@ function Section({children, title}: SectionProps): React.JSX.Element {
 }
 
 function App(): React.JSX.Element {
+  const [count, setCount] = useState(0);
+
   const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const DATA = [
+    {
+      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: 'First Item',
+    },
+    {
+      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+      title: 'Second Item',
+    },
+    {
+      id: '58694a0f-3da1-471f-bd96-145571e29d72',
+      title: 'Third Item',
+    },
+  ];
 
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaView>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View
           style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+            backgroundColor: isDarkMode ? 'black' : 'white',
           }}>
+          <Section title="000">
+            <Button title={String(count)} onPress={() => setCount(pre => pre+1)}></Button>
+          </Section>
           <Section title="Step One">
             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
             screen and then come back to see your edits.
           </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
+          <Section title='Hello'>
+            <Text style={styles.items}>
+              Just Read
+            </Text>
+            <Text style={{color: 'blue'}}>
+              Just Read
+            </Text>
           </Section>
-          <Section title="Debug">
-            <DebugInstructions />
+          <Section title='Hello1'>
+            <View>
+              <View style={{width: 50, height: 50, backgroundColor: 'skyblue'}} />
+              <View style={{width: 100, height: 100, backgroundColor: 'blue'}} />
+              <View style={{width: 200, height: 200, backgroundColor: 'steelblue'}} />
+            </View>
           </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
+          <Section title='Hello2'>
+            <View style={{height: 300, width: 300, backgroundColor: 'red'}}>
+              <View style={{height: '50%', backgroundColor: 'skyblue'}}><Text>Hello</Text></View>
+              <View style={{height: '50%', backgroundColor: 'steelblue'}}><Text>Hello</Text></View>
+            </View>
           </Section>
-          <LearnMoreLinks />
+          <Section title='Hello3'>
+            <Button title='点击' onPress={() => Alert.alert('Hello')} />
+            <ActivityIndicator size="large" color='orange' />
+          </Section>
+          <Section title='List'>
+            <FlatList
+              data={DATA}
+              renderItem={({item}) => <Item title={item.title} />}
+              keyExtractor={item => item.id}></FlatList>
+          </Section>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
+type ItemProps = { title: string }
+
+function Item({title}: ItemProps) {
+  return (
+    <View style={{ width: 450 - 48, height: 50, backgroundColor: 'pink'}}>
+      <Text>{title}</Text>
+    </View>
+  )
+}
+
 const styles = StyleSheet.create({
+  items: {
+    color: 'red',
+  },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
